@@ -1,5 +1,21 @@
+import math
+
+def signum(x):
+  if x == 0:
+    return 0
+  
+  elif x > 0:
+    return 1
+  
+  else:
+    return -1
+
+
 def bisection(f, a, b, tol, N):
-  """Implements the bisection method.
+  if signum(f(a)) * signum(f(b)) > 0:
+    print ("Initial conditions are not satisfied.")
+    exit(0)
+  """ Implements the bisection method.
 
   Args:
     f: The function to be bisected.
@@ -14,10 +30,11 @@ def bisection(f, a, b, tol, N):
 
   i = 0
   while abs(b - a) > tol and i < N:
+    #a += 1
     c = (a + b) / 2
-    if f(c) == 0:
+    if signum(f(c)) == 0:
       return c
-    elif f(a) * f(c) < 0:
+    elif signum(f(a)) * signum(f(c)) < 0:
       b = c
     else:
       a = c
@@ -27,11 +44,13 @@ def bisection(f, a, b, tol, N):
 
 if __name__ == "__main__":
   f = lambda x: x**4 -x**3 + x**2 - 2
-  a = 0
+  a = 1
   b = 2
   tol = 1e-6
   N = 100
+  a = 0
 
   root = bisection(f, a, b, tol, N)
 
-  print("The root of the function is", root)
+  print("The approximate root of the function is", root, "and the value of the function at this point is ", f(root))
+  #print("The number of iterations taken are ", a)
