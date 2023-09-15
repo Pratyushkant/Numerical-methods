@@ -25,21 +25,21 @@ def bisection(f, a, b, tol, N):
     N: The maximum number of iterations.
 
   Returns:
-    The root of the function.
+    The root of the function or an error message.
   """
 
   i = 0
-  while abs(b - a) > tol and i < N:
-    #a += 1
+  while i < N:
     c = (a + b) / 2
-    if signum(f(c)) == 0:
+    if signum(f(c)) == 0 or abs(b - a) <= tol:
       return c
     elif signum(f(a)) * signum(f(c)) < 0:
       b = c
     else:
       a = c
     i += 1
-  return (a + b) / 2
+  print("Method Failure!")
+  exit(0)
 
 
 if __name__ == "__main__":
@@ -53,4 +53,3 @@ if __name__ == "__main__":
   root = bisection(f, a, b, tol, N)
 
   print("The approximate root of the function is", root, "and the value of the function at this point is ", f(root))
-  #print("The number of iterations taken are ", a)
