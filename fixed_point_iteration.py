@@ -1,24 +1,25 @@
-def f(x):
-	return (x**2 -1)/3
+import math
 
-def fixed_point_iteration (TOL, N_0, p_0):
-	i = 1
-	while i <= N_0:
-		p = f(p_0)
-		if abs(p - p_0) < TOL:
-			print("The fixed point approximated is: ", p)
-			exit(0)
-		else:
-			i += 1
-			p_0 = p
+def fixed_point (f, p0, tol, N):
+  i = 1
+  while i <= N:
+    p = f(p0)
+    if abs(p0 - f(p0)) < tol:
+      return p0
+    else:
+      p0 = f(p0)
+      i = i + 1
 
-	
+    if i > N:
+        print("Method Failure: Maximum number of iterations exceeded!")    
+        exit(0)
 
-p_0 = float(input("Enter the initial approximation: "))
-N_0 = int(input("Enter the maximum number of iterations: "))
-if N_0 <= 0:
-	exit(0)
-	
-TOL = float(input("Enter the tolerance: "))
-fixed_point_iteration(TOL, N_0, p_0)
-print("Method faliure :(")
+if __name__ == "__main__":
+  f = lambda x: (x**2 - 1) / 3
+  tol = 1e-6
+  N = 100
+  p0 = 0
+
+  fixed_point = fixed_point(f, p0, tol, N)
+
+  print("The fixed point of the function is", fixed_point, "and the value of the function at this point is ", f(fixed_point))
