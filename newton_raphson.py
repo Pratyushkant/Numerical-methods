@@ -1,41 +1,30 @@
 import math
 
-def f(x):
-	return math.cos(x) - x
+def newton_raphson (f, p0, tol, N):
+  i = 1
+  while i <= N:
+    if df(p0) == 0:
+      print("Method Failure: Derivative at approximation vanished. The initial approximation is not close enough.")
+      exit(0)
+    else:
+      p = p0 - f(p0)/df(p0)
+      if abs(p0 - p) < tol:
+        return p0
+      else:
+        p0 = p
+        i = i + 1
 
-def df(x):
-	return -math.sin(x) - 1
+    if i > N:
+        print("Method Failure: Maximum number of iterations exceeded!")    
+        exit(0)
 
-def newton_raphson(N, TOL, p):
-	i = 1
-	while i <= N:
-		if (df(p) == 0):
-			print ("Method Failure. Derivative became zero!")
-			exit (0)
-		newp = p - f(p)/df(p) 
-		if abs(newp - p) < TOL:
-			print ("The approximate root of the function is ", newp, " and the approximate value of the function at this point is ", f(newp))
-			print ("Number of iterations taken are: ", i)
-			exit(0)
-		else:
-			p = newp
-			i = i + 1
-	
-	print ("Method Failure: Maximum number of iterations exceeded!")
-	exit(0)
+if __name__ == "__main__":
+  f = lambda x: math.cos(x) - x
+  df = lambda x: - math.sin(x) - 1
+  tol = 1e-6
+  N = 100
+  p0 = 1.5
 
-N = int(input("Enter the maximum number of iterations: "))
-if N <= 0:
-	print ("Invalid Input")
-	exit(0)
+  root = newton_raphson(f, p0, tol, N)
 
-TOL = float(input("Enter your tolerance: "))
-if TOL <= 0:
-	print ("Invalid Input")
-	exit(0)
-
-p = float(input("Enter your initial approximation (A word of caution: Newton's method works the best when the derivative at initial approximation is bounded away from zero!): "))
-if (df(p) == 0):
-	print ("Method Failure: Derivative at p is zero!")
-
-newton_raphson (N, TOL, p)
+  print("The root of the function is", root, "and the value of the function at this point is approximately ", f(root))
